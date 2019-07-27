@@ -124,6 +124,9 @@ namespace Emby.Server.Implementations.Data
             }
 
             WriteConnection.Execute("PRAGMA temp_store=" + (int)TempStore);
+            
+            // Configuration and pragmas can affect VACUUM so it needs to be last.
+            WriteConnection.Execute("VACUUM");
 
             return new ManagedConnection(WriteConnection, WriteLock);
         }
